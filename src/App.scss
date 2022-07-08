@@ -1,11 +1,21 @@
 @import "./sassStyles/variables";
+@import "./sassStyles/typography";
 
-.Container {
+.container {
+    width: 100vw;
     text-align: center;
-    font-size: $font-400;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
+}
+
+.linesContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
 }

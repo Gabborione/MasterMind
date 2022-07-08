@@ -6,10 +6,17 @@ const Colors = ["red", "yellow", "blue", "green", "black", "white"];
 const SOLUTION_LENGTH = 4;
 const MAX_TRY = 10;
 const DEFAULT_COLOR = "grey";
+const DEFAULT_GUESS = [
+    DEFAULT_COLOR,
+    DEFAULT_COLOR,
+    DEFAULT_COLOR,
+    DEFAULT_COLOR,
+];
 
 function App() {
     const [solution, setSolution] = useState([]);
     const [guesses, setGuesses] = useState(Array(MAX_TRY).fill(null));
+    const [currentGuess, setCurrentGuess] = useState(DEFAULT_GUESS);
 
     useEffect(() => {
         const newSolution = [];
@@ -22,24 +29,26 @@ function App() {
     }, []);
 
     return (
-        <div className="Container">
+        <div className="container">
             <h1 className="title">COLOR MIND</h1>
-            {guesses.map((guess, index) => {
-                return (
-                    <Line
-                        guess={
-                            guess ?? [
-                                DEFAULT_COLOR,
-                                DEFAULT_COLOR,
-                                DEFAULT_COLOR,
-                                DEFAULT_COLOR,
-                            ]
-                        }
-                        solution={solution}
-                        key={index}
-                    />
-                );
-            })}
+            <div className="linesContainer">
+                {guesses.map((guess, index) => {
+                    const isCurrentGuess =
+                        index === guesses.findIndex((val) => val == null);
+                    return (
+                        <Line
+                            guess={
+                                isCurrentGuess
+                                    ? currentGuess
+                                    : guess ?? DEFAULT_GUESS
+                            }
+                            isFinal={!isCurrentGuess && guess != null}
+                            solution={solution}
+                            key={index}
+                        />
+                    );
+                })}
+            </div>
         </div>
     );
 }

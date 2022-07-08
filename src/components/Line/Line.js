@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./Line.scss";
 
-const Line = ({ guess, solution }) => {
-    const [hints, setHints] = useState(Array(solution.length).fill(null));
+const DEFAULT_HINTS = Array(4).fill("grey");
+
+const Line = ({ guess, solution, isFinal }) => {
+    const [hints, setHints] = useState(DEFAULT_HINTS);
 
     useEffect(() => {
-        if (guess) {
-            const newHints = [];
+        const newHints = [];
 
+        if (isFinal) {
             for (let i = 0; i < solution.length; i++) {
                 if (guess[i] === solution[i]) {
                     newHints.push("match");
@@ -16,27 +18,44 @@ const Line = ({ guess, solution }) => {
                 }
             }
 
-            let className = "hint";
-
             setHints(newHints);
         }
-    }, [guess, solution]);
+    }, []);
 
     return (
-        <div className="container">
-            {guess.map((color, index) => {
-                return (
-                    <div
-                        className="color"
-                        key={index}
-                        style={{ backgroundColor: `${color}` }}
-                    />
-                );
-            })}
+        <div className="lineContainer">
+            <div className="colorsContainer">
+                {guess.map((color, index) => {
+                    return (
+                        <div
+                            className="color"
+                            key={index}
+                            style={{ backgroundColor: `${color}` }}
+                        />
+                    );
+                })}
+            </div>
 
             <div className="hints">
                 {hints.map((value, index) => {
-                    return <div className={className} key={index} />;
+                    const isCurrentHint =
+                        index === hints.findIndex((val) => val == null);
+                    let hintColor = "grey";
+                    if (isCurrentHint) {
+                        if (value === "match") {
+                            hintColor = "black";
+                        } else {
+                            hintColor = "white";
+                        }
+                    }
+
+                    return (
+                        <div
+                            className="hint"
+                            key={index}
+                            style={{ backgroundColor: `${hintColor}` }}
+                        />
+                    );
                 })}
             </div>
         </div>
