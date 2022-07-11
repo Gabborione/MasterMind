@@ -7,22 +7,68 @@ const DEFAULT_HINTS = Array(4).fill(DEFAULT_COLOR);
 const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
     const [hints, setHints] = useState(DEFAULT_HINTS);
 
+    function shuffle(array) {
+        let currentIndex = array.length,
+            randomIndex;
+
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex],
+                array[currentIndex],
+            ];
+        }
+
+        return array;
+    }
+
     useEffect(() => {
         const newHints = [];
         if (isFinal) {
-            let finded = [];
+            let recurrences = [{}];
+            solution.forEach((color) => {
+                if (
+                    recurrences.find((val) => val.color === color) !== undefined
+                ) {
+                } else {
+                    let colorRecurrence = solution.filter((c) => c === color);
+                    recurrences.push({
+                        color: color,
+                        count: colorRecurrence.length,
+                    });
+                }
+            });
+
+            console.log(recurrences);
+
             for (let i = 0; i < solution.length; i++) {
-                if (guess[i] === solution[i]) {
+                if (
+                    guess[i] === solution[i] &&
+                    recurrences.find(
+                        (val) => val.color === guess[i] && val.count > 0
+                    )
+                ) {
                     newHints[i] = "match";
-                    finded[i] = i;
-                } else if (solution.includes((val) => val === guess[i])) {
+                    recurrences[
+                        recurrences.findIndex((val) => val.color === guess[i])
+                    ].count--;
+                } else if (
+                    recurrences.find(
+                        (val) => val.color === guess[i] && val.count > 0
+                    )
+                ) {
                     newHints[i] = "close";
+                    recurrences[
+                        recurrences.findIndex((val) => val.color === guess[i])
+                    ].count--;
                 } else {
                     newHints[i] = "mismatch";
                 }
             }
 
-            setHints(newHints);
+            setHints(shuffle(newHints));
         }
     }, [isFinal]);
 

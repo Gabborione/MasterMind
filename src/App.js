@@ -21,11 +21,12 @@ function App() {
     const [next, setNext] = useState(false);
 
     useEffect(() => {
-        const newSolution = ["red", "yellow", "blue", "green"];
+        // const newSolution = ["red", "yellow", "blue", "green"];
+        const newSolution = [];
 
-        // for (let i = 0; i < SOLUTION_LENGTH; i++) {
-        //     newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
-        // }
+        for (let i = 0; i < SOLUTION_LENGTH; i++) {
+            newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
+        }
 
         setSolution(newSolution);
     }, []);
