@@ -27,7 +27,7 @@ const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
     useEffect(() => {
         const newHints = [];
         if (isFinal) {
-            let recurrences = [{}];
+            let recurrences = [];
             solution.forEach((color) => {
                 if (
                     recurrences.find((val) => val.color === color) !== undefined
@@ -44,27 +44,28 @@ const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
             console.log(recurrences);
 
             for (let i = 0; i < solution.length; i++) {
-                if (
-                    guess[i] === solution[i] &&
-                    recurrences.find(
-                        (val) => val.color === guess[i] && val.count > 0
-                    )
-                ) {
-                    newHints[i] = "match";
+                if (guess[i] === solution[i]) {
+                    newHints.push("match");
                     recurrences[
                         recurrences.findIndex((val) => val.color === guess[i])
                     ].count--;
+                }
+            }
+
+            for (let i = 0; i < solution.length; i++) {
+                if (guess[i] === solution[i]) {
                 } else if (
                     recurrences.find(
                         (val) => val.color === guess[i] && val.count > 0
                     )
                 ) {
-                    newHints[i] = "close";
-                    recurrences[
-                        recurrences.findIndex((val) => val.color === guess[i])
-                    ].count--;
+                    newHints.push("close");
+                    let curr = recurrences.findIndex(
+                        (val) => val.color === guess[i]
+                    );
+                    if (recurrences[curr].count > 0) recurrences[curr].count--;
                 } else {
-                    newHints[i] = "mismatch";
+                    newHints.push("mismatch");
                 }
             }
 
