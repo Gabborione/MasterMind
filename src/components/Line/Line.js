@@ -10,13 +10,12 @@ const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
     useEffect(() => {
         const newHints = [];
         if (isFinal) {
+            let finded = [];
             for (let i = 0; i < solution.length; i++) {
                 if (guess[i] === solution[i]) {
                     newHints[i] = "match";
-                } else if (
-                    guess[i] ===
-                    solution[solution.findIndex((val) => val === guess[i])]
-                ) {
+                    finded[i] = i;
+                } else if (solution.includes((val) => val === guess[i])) {
                     newHints[i] = "close";
                 } else {
                     newHints[i] = "mismatch";
