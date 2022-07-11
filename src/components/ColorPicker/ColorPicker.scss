@@ -1,0 +1,14 @@
+.colorPicker {
+    width: 4rem;
+    height: 4rem;
+    border: 2px solid #000;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: -1px 5px 15px 5px rgba(0, 0, 0, 0.47);
+    color: black;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
