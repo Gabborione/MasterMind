@@ -4,7 +4,14 @@ import "./Line.scss";
 const DEFAULT_COLOR = "grey";
 const DEFAULT_HINTS = Array(4).fill(DEFAULT_COLOR);
 
-const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
+const Line = ({
+    guess,
+    solution,
+    isFinal,
+    isCurrentGuess,
+    setNext,
+    recurrences,
+}) => {
     const [hints, setHints] = useState(DEFAULT_HINTS);
 
     function shuffle(array) {
@@ -26,28 +33,17 @@ const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
 
     useEffect(() => {
         const newHints = [];
-        if (isFinal) {
-            let recurrences = [];
-            solution.forEach((color) => {
-                if (
-                    recurrences.find((val) => val.color === color) !== undefined
-                ) {
-                } else {
-                    let colorRecurrence = solution.filter((c) => c === color);
-                    recurrences.push({
-                        color: color,
-                        count: colorRecurrence.length,
-                    });
-                }
-            });
 
-            console.log(recurrences);
+        if (isFinal) {
+            let recurrencesClone = structuredClone(recurrences);
 
             for (let i = 0; i < solution.length; i++) {
                 if (guess[i] === solution[i]) {
                     newHints.push("match");
-                    recurrences[
-                        recurrences.findIndex((val) => val.color === guess[i])
+                    recurrencesClone[
+                        recurrencesClone.findIndex(
+                            (val) => val.color === guess[i]
+                        )
                     ].count--;
                 }
             }
@@ -55,26 +51,37 @@ const Line = ({ guess, solution, isFinal, isCurrentGuess, setNext }) => {
             for (let i = 0; i < solution.length; i++) {
                 if (guess[i] === solution[i]) {
                 } else if (
-                    recurrences.find(
+                    recurrencesClone.find(
                         (val) => val.color === guess[i] && val.count > 0
                     )
                 ) {
                     newHints.push("close");
-                    let curr = recurrences.findIndex(
+                    let curr = recurrencesClone.findIndex(
                         (val) => val.color === guess[i]
                     );
-                    if (recurrences[curr].count > 0) recurrences[curr].count--;
-                } else {
+                    if (recurrencesClone[curr].count > 0)
+                        recurrencesClone[curr].count--;
+                }
+            }
+
+            shuffle(newHints);
+
+            if (newHints.length !== solution.length) {
+                let differenceCount = solution.length - newHints.length;
+
+                for (let i = 0; i < differenceCount; i++) {
                     newHints.push("mismatch");
                 }
             }
 
-            setHints(shuffle(newHints));
+            setHints(newHints);
         }
     }, [isFinal]);
 
     const handleConfirm = () => {
-        setNext(true);
+        if (!guess.some((val) => val === DEFAULT_COLOR)) {
+            setNext(true);
+        }
     };
 
     return (

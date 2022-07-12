@@ -1,5 +1,5 @@
 import "./App.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Line from "./components/Line/Line";
 import ColorPicker from "./components/ColorPicker/ColorPicker";
 
@@ -19,16 +19,44 @@ function App() {
     const [guesses, setGuesses] = useState(Array(MAX_TRY).fill(DEFAULT_GUESS));
     const [currentGuess, setCurrentGuess] = useState(DEFAULT_GUESS);
     const [next, setNext] = useState(false);
+    const alreadyCalled = useRef(false);
+    const [recurrences, setRecurrences] = useState([]);
 
     useEffect(() => {
-        // const newSolution = ["red", "yellow", "blue", "green"];
-        const newSolution = [];
+        if (!alreadyCalled.current) {
+            let reccurencesTemp = [];
+            const newSolution = ["red", "yellow", "blue", "green"];
 
-        for (let i = 0; i < SOLUTION_LENGTH; i++) {
-            newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
+            // const newSolution = [];
+
+            // for (let i = 0; i < SOLUTION_LENGTH; i++) {
+            //     newSolution.push(
+            //         COLORS[Math.floor(Math.random() * COLORS.length)]
+            //     );
+            // }
+
+            setSolution(newSolution);
+
+            newSolution.forEach((color) => {
+                if (
+                    reccurencesTemp.find((val) => val.color === color) !==
+                    undefined
+                ) {
+                } else {
+                    let colorRecurrence = newSolution.filter(
+                        (c) => c === color
+                    );
+                    reccurencesTemp.push({
+                        color: color,
+                        count: colorRecurrence.length,
+                    });
+                }
+            });
+
+            setRecurrences(reccurencesTemp);
+
+            alreadyCalled.current = true;
         }
-
-        setSolution(newSolution);
     }, []);
 
     useEffect(() => {
@@ -57,11 +85,21 @@ function App() {
                                 currentGuess={currentGuess}
                                 setCurrentGuess={setCurrentGuess}
                                 defaultColor={DEFAULT_COLOR}
-                                defaultguess={DEFAULT_GUESS}
+                                defaultGuess={DEFAULT_GUESS}
+                                isColor={true}
                             />
                         );
                     })}
-                    <ColorPicker color="grey" text={"X"} />;
+                    <ColorPicker
+                        color={DEFAULT_COLOR}
+                        text={"X"}
+                        currentGuess={currentGuess}
+                        setCurrentGuess={setCurrentGuess}
+                        defaultColor={DEFAULT_COLOR}
+                        defaultGuess={DEFAULT_GUESS}
+                        isColor={false}
+                    />
+                    ;
                 </div>
                 <div className="linesContainer">
                     {guesses.map((guess, index) => {
@@ -81,6 +119,7 @@ function App() {
                                 solution={solution}
                                 isCurrentGuess={isCurrentGuess}
                                 setNext={setNext}
+                                recurrences={recurrences}
                                 key={index}
                             />
                         );
