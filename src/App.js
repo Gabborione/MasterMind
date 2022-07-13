@@ -72,23 +72,27 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (arrayEquals(currentGuess, solution)) {
-            setWin(true);
-            setEnd(true);
-        } else if (count >= 9) {
-            setEnd(true);
-        }
+        if (alreadyCalled.current) {
+            alreadyCalled.current = false;
+        } else {
+            console.log("a");
+            if (arrayEquals(currentGuess, solution)) {
+                setWin(true);
+                setEnd(true);
+            } else if (count >= 9) {
+                setEnd(true);
+            }
 
-        const newGuesses = [...guesses];
-        if (currentGuess !== DEFAULT_GUESS) {
-            newGuesses[guesses.findIndex((val) => val === DEFAULT_GUESS)] =
-                currentGuess;
-        }
+            const newGuesses = [...guesses];
+            if (currentGuess !== DEFAULT_GUESS) {
+                newGuesses[guesses.findIndex((val) => val === DEFAULT_GUESS)] =
+                    currentGuess;
+            }
 
-        setGuesses(newGuesses);
-        setCurrentGuess(DEFAULT_GUESS);
-        setNext(false);
-        setCount((val) => val + 1);
+            setGuesses(newGuesses);
+            setCurrentGuess(DEFAULT_GUESS);
+            setCount((val) => val + 1);
+        }
     }, [next]);
 
     return (

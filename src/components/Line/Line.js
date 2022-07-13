@@ -80,7 +80,7 @@ const Line = ({
 
     const handleConfirm = () => {
         if (!guess.some((val) => val === DEFAULT_COLOR)) {
-            setNext(true);
+            setNext((val) => !val);
         }
     };
 
