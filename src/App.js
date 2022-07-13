@@ -5,6 +5,7 @@ import ColorPicker from "./components/ColorPicker/ColorPicker";
 import EndGame from "./components/EndGame/EndGame";
 
 const COLORS = ["red", "yellow", "blue", "green", "black", "white"];
+const SOLUTION_LENGTH = 4;
 const MAX_TRY = 10;
 const DEFAULT_COLOR = "grey";
 const DEFAULT_GUESS = [
@@ -20,6 +21,7 @@ function App() {
     const [currentGuess, setCurrentGuess] = useState(DEFAULT_GUESS);
     const [next, setNext] = useState(false);
     const alreadyCalled = useRef(false);
+    const isInit = useRef(true);
     const [recurrences, setRecurrences] = useState([]);
     const [win, setWin] = useState(false);
     const [end, setEnd] = useState(false);
@@ -34,20 +36,29 @@ function App() {
         );
     }
 
+    function generateSolution() {
+        let newSolution = [];
+
+        for (let i = 0; i < SOLUTION_LENGTH; i++) {
+            newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
+        }
+
+        setSolution(newSolution);
+
+        return newSolution;
+    }
+
+    function reload() {
+        setCount(0);
+        setCurrentGuess(DEFAULT_GUESS);
+        generateSolution();
+    }
+
     useEffect(() => {
         if (!alreadyCalled.current) {
             let reccurencesTemp = [];
-            const newSolution = ["red", "yellow", "blue", "green"];
-
-            // const newSolution = [];
-
-            // for (let i = 0; i < SOLUTION_LENGTH; i++) {
-            //     newSolution.push(
-            //         COLORS[Math.floor(Math.random() * COLORS.length)]
-            //     );
-            // }
-
-            setSolution(newSolution);
+            const newSolution = generateSolution();
+            // const newSolution = ["red", "yellow", "blue", "green"];
 
             newSolution.forEach((color) => {
                 if (
@@ -72,8 +83,8 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (alreadyCalled.current) {
-            alreadyCalled.current = false;
+        if (isInit.current) {
+            isInit.current = false;
         } else {
             console.log("a");
             if (arrayEquals(currentGuess, solution)) {
@@ -105,18 +116,18 @@ function App() {
                             <ColorPicker
                                 key={index}
                                 color={color}
-                                text={""}
                                 currentGuess={currentGuess}
                                 setCurrentGuess={setCurrentGuess}
                                 defaultColor={DEFAULT_COLOR}
                                 defaultGuess={DEFAULT_GUESS}
                                 isColor={true}
+                                removeColors={false}
                             />
                         );
                     })}
                     <ColorPicker
                         color={DEFAULT_COLOR}
-                        text={"X"}
+                        removeColors={true}
                         currentGuess={currentGuess}
                         setCurrentGuess={setCurrentGuess}
                         defaultColor={DEFAULT_COLOR}

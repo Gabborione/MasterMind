@@ -6,9 +6,11 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    border: 1px solid #000;
+    background: url("../../../public/Images/BackgroundImage.jfif") right;
+    background-color: rgba(255, 255, 255, 0.2);
+    background-blend-mode: lighten;
+    box-shadow: -1px 2px 7px 3px rgba(0, 0, 0, 0.7);
     border-radius: 10px;
-    box-shadow: -1px 5px 10px 5px rgba(0, 0, 0, 0.57);
     padding-left: 0.3rem;
     padding-right: 0.3rem;
 }
@@ -25,7 +27,7 @@
 .color {
     width: 30px;
     aspect-ratio: 1;
-    border: 1px solid #000;
+    box-shadow: -1px 2px 7px 2px rgba(0, 0, 0, 0.7);
     border-radius: 50%;
 }
 
@@ -43,16 +45,18 @@
 .hint {
     width: 12px;
     aspect-ratio: 1;
-    border: 1px solid #000;
+    box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.6);
     border-radius: 50%;
     cursor: pointer;
 }
 
 .confirm {
-    width: 30px;
-    aspect-ratio: 1;
-    border: 1px solid #000;
-    border-radius: 50%;
-    background-color: green;
+    background-color: transparent;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: white;
+    filter: drop-shadow(1px 5px 2px rgb(0 0 0 / 0.6));
 }

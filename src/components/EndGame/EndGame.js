@@ -1,13 +1,23 @@
 import React from "react";
-import Line from "../Line/Line";
 import "./EndGame.scss";
+import { TiRefresh } from "react-icons/ti/";
 
 const EndGame = ({ solution, win }) => {
     return (
         <div className="overlay">
             <div className="endCard">
-                <h1 className="title">{win ? "HAI VINTO" : "HAI PERSO"}</h1>
-                <div className="lineContainer">
+                <h1 className="title">{win ? "YOU WIN" : "YOU LOOSE"}</h1>
+                <p>SOLUTION:</p>
+                <div
+                    className="lineContainer"
+                    style={{
+                        background: "url(Images/BackgroundImage.jfif) right",
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        backgroundBlendMode: "lighten",
+                        boxShadow: "-1px 2px 7px 3px rgba(0, 0, 0, 0.7)",
+                        border: "none",
+                    }}
+                >
                     {solution.map((color, index) => {
                         return (
                             <div
@@ -19,7 +29,12 @@ const EndGame = ({ solution, win }) => {
                     })}
                 </div>
                 <div className="commands">
-                    <button className="button" onClick={() => window.location.reload()}></button>
+                    <button
+                        className="button"
+                        onClick={() => window.location.reload()}
+                    >
+                        <TiRefresh />
+                    </button>
                 </div>
             </div>
         </div>

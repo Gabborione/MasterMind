@@ -1,9 +1,11 @@
 import React from "react";
 import "./ColorPicker.scss";
+import { TiTrash } from "react-icons/ti";
+import { IoTrashBin } from "react-icons/io5";
 
 const ColorPicker = ({
     color,
-    text,
+    removeColors,
     currentGuess,
     setCurrentGuess,
     defaultColor,
@@ -30,7 +32,7 @@ const ColorPicker = ({
             style={{ backgroundColor: `${color}` }}
             onClick={isColor ? handleColorClick : handleDelete}
         >
-            {text}
+            {removeColors ? <IoTrashBin /> : null}
         </div>
     );
 };
