@@ -2,9 +2,9 @@ import "./App.scss";
 import React, { useState, useEffect, useRef } from "react";
 import Line from "./components/Line/Line";
 import ColorPicker from "./components/ColorPicker/ColorPicker";
+import EndGame from "./components/EndGame/EndGame";
 
 const COLORS = ["red", "yellow", "blue", "green", "black", "white"];
-const SOLUTION_LENGTH = 4;
 const MAX_TRY = 10;
 const DEFAULT_COLOR = "grey";
 const DEFAULT_GUESS = [
@@ -21,6 +21,18 @@ function App() {
     const [next, setNext] = useState(false);
     const alreadyCalled = useRef(false);
     const [recurrences, setRecurrences] = useState([]);
+    const [win, setWin] = useState(false);
+    const [end, setEnd] = useState(false);
+    const [count, setCount] = useState(0);
+
+    function arrayEquals(a, b) {
+        return (
+            Array.isArray(a) &&
+            Array.isArray(b) &&
+            a.length === b.length &&
+            a.every((val, index) => val === b[index])
+        );
+    }
 
     useEffect(() => {
         if (!alreadyCalled.current) {
@@ -60,6 +72,13 @@ function App() {
     }, []);
 
     useEffect(() => {
+        if (arrayEquals(currentGuess, solution)) {
+            setWin(true);
+            setEnd(true);
+        } else if (count >= 9) {
+            setEnd(true);
+        }
+
         const newGuesses = [...guesses];
         if (currentGuess !== DEFAULT_GUESS) {
             newGuesses[guesses.findIndex((val) => val === DEFAULT_GUESS)] =
@@ -69,6 +88,7 @@ function App() {
         setGuesses(newGuesses);
         setCurrentGuess(DEFAULT_GUESS);
         setNext(false);
+        setCount((val) => val + 1);
     }, [next]);
 
     return (
@@ -126,6 +146,7 @@ function App() {
                     })}
                 </div>
             </div>
+            {end && <EndGame solution={solution} win={win} />}
         </div>
     );
 }
