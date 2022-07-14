@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Line from "./components/Line/Line";
 import ColorPicker from "./components/ColorPicker/ColorPicker";
 import EndGame from "./components/EndGame/EndGame";
+import Menu from "./components/Menu/Menu";
 
 const COLORS = ["red", "yellow", "blue", "green", "black", "white"];
 const SOLUTION_LENGTH = 4;
@@ -25,7 +26,7 @@ function App() {
     const [recurrences, setRecurrences] = useState([]);
     const [win, setWin] = useState(false);
     const [end, setEnd] = useState(false);
-    const [count, setCount] = useState(0);
+    const [countTry, setCountTry] = useState(0);
 
     function arrayEquals(a, b) {
         return (
@@ -55,7 +56,7 @@ function App() {
         setNext(false);
         setWin(false);
         setEnd(false);
-        setCount(0);
+        setCountTry(0);
     }
 
     function reload() {
@@ -94,7 +95,7 @@ function App() {
             if (arrayEquals(currentGuess, solution)) {
                 setWin(true);
                 setEnd(true);
-            } else if (count >= MAX_TRY - 1) {
+            } else if (countTry >= MAX_TRY - 1) {
                 setEnd(true);
             }
 
@@ -106,37 +107,15 @@ function App() {
 
             setGuesses(newGuesses);
             setCurrentGuess(DEFAULT_GUESS);
-            setCount((val) => val + 1);
+            setCountTry((val) => val + 1);
         }
     }, [next]);
-
-    // useEffect(() => {
-    //     if (isInit.current) {
-    //         isInit.current = false;
-    //     } else {
-    //         console.log("a");
-    //         if (arrayEquals(currentGuess, solution)) {
-    //             setWin(true);
-    //             setEnd(true);
-    //         } else if (count >= 10) {
-    //             setEnd(true);
-    //         }
-
-    //         const newGuesses = [...guesses];
-    //         if (currentGuess !== DEFAULT_GUESS) {
-    //             newGuesses[guesses.findIndex((val) => val === DEFAULT_GUESS)] =
-    //                 currentGuess;
-    //         }
-
-    //         setGuesses(newGuesses);
-    //         setCurrentGuess(DEFAULT_GUESS);
-    //         setCount((val) => val + 1);
-    //     }
-    // }, [next]);
 
     return (
         <div className="container">
             <h1 className="title">COLOR MIND</h1>
+
+            <Menu />
             <div className="body">
                 <div className="colorsPickerContainer">
                     {COLORS.map((color, index) => {

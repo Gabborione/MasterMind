@@ -8,16 +8,7 @@ const EndGame = ({ solution, win, reload }) => {
             <div className="endCard">
                 <h1 className="title">{win ? "YOU WIN" : "YOU LOOSE"}</h1>
                 <p>SOLUTION:</p>
-                <div
-                    className="lineContainer"
-                    style={{
-                        background: "url(Images/BackgroundImage.jfif) right",
-                        backgroundColor: "rgba(255, 255, 255, 0.2)",
-                        backgroundBlendMode: "lighten",
-                        boxShadow: "-1px 2px 7px 3px rgba(0, 0, 0, 0.7)",
-                        border: "none",
-                    }}
-                >
+                <div className="lineContainer">
                     {solution.map((color, index) => {
                         return (
                             <div
@@ -29,10 +20,7 @@ const EndGame = ({ solution, win, reload }) => {
                     })}
                 </div>
                 <div className="commands">
-                    <button
-                        className="button"
-                        onClick={reload}
-                    >
+                    <button className="button" onClick={reload}>
                         <TiRefresh />
                     </button>
                 </div>
