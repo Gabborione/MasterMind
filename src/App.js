@@ -21,7 +21,7 @@ function App() {
     const [currentGuess, setCurrentGuess] = useState(DEFAULT_GUESS);
     const [next, setNext] = useState(false);
     const alreadyCalled = useRef(false);
-    const isInit = useRef(true);
+    const isInit = useRef(0);
     const [recurrences, setRecurrences] = useState([]);
     const [win, setWin] = useState(false);
     const [end, setEnd] = useState(false);
@@ -48,49 +48,53 @@ function App() {
         return newSolution;
     }
 
-    function reload() {
-        setCount(0);
+    function reset() {
+        setSolution([]);
+        setGuesses(Array(MAX_TRY).fill(DEFAULT_GUESS));
         setCurrentGuess(DEFAULT_GUESS);
-        generateSolution();
+        setNext(false);
+        setWin(false);
+        setEnd(false);
+        setCount(0);
+    }
+
+    function reload() {
+        reset();
+
+        let reccurencesTemp = [];
+        const newSolution = generateSolution();
+        // const newSolution = ["red", "yellow", "blue", "green"];
+
+        newSolution.forEach((color) => {
+            if (
+                reccurencesTemp.find((val) => val.color === color) !== undefined
+            ) {
+            } else {
+                let colorRecurrence = newSolution.filter((c) => c === color);
+                reccurencesTemp.push({
+                    color: color,
+                    count: colorRecurrence.length,
+                });
+            }
+        });
+
+        setRecurrences(reccurencesTemp);
     }
 
     useEffect(() => {
         if (!alreadyCalled.current) {
-            let reccurencesTemp = [];
-            const newSolution = generateSolution();
-            // const newSolution = ["red", "yellow", "blue", "green"];
-
-            newSolution.forEach((color) => {
-                if (
-                    reccurencesTemp.find((val) => val.color === color) !==
-                    undefined
-                ) {
-                } else {
-                    let colorRecurrence = newSolution.filter(
-                        (c) => c === color
-                    );
-                    reccurencesTemp.push({
-                        color: color,
-                        count: colorRecurrence.length,
-                    });
-                }
-            });
-
-            setRecurrences(reccurencesTemp);
+            reload();
 
             alreadyCalled.current = true;
         }
-    }, []);
 
-    useEffect(() => {
-        if (isInit.current) {
-            isInit.current = false;
+        if (isInit.current < 2) {
+            isInit.current++;
         } else {
-            console.log("a");
             if (arrayEquals(currentGuess, solution)) {
                 setWin(true);
                 setEnd(true);
-            } else if (count >= 9) {
+            } else if (count >= MAX_TRY - 1) {
                 setEnd(true);
             }
 
@@ -105,6 +109,30 @@ function App() {
             setCount((val) => val + 1);
         }
     }, [next]);
+
+    // useEffect(() => {
+    //     if (isInit.current) {
+    //         isInit.current = false;
+    //     } else {
+    //         console.log("a");
+    //         if (arrayEquals(currentGuess, solution)) {
+    //             setWin(true);
+    //             setEnd(true);
+    //         } else if (count >= 10) {
+    //             setEnd(true);
+    //         }
+
+    //         const newGuesses = [...guesses];
+    //         if (currentGuess !== DEFAULT_GUESS) {
+    //             newGuesses[guesses.findIndex((val) => val === DEFAULT_GUESS)] =
+    //                 currentGuess;
+    //         }
+
+    //         setGuesses(newGuesses);
+    //         setCurrentGuess(DEFAULT_GUESS);
+    //         setCount((val) => val + 1);
+    //     }
+    // }, [next]);
 
     return (
         <div className="container">
@@ -161,7 +189,7 @@ function App() {
                     })}
                 </div>
             </div>
-            {end && <EndGame solution={solution} win={win} />}
+            {end && <EndGame solution={solution} win={win} reload={reload} />}
         </div>
     );
 }

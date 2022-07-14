@@ -2,7 +2,7 @@ import React from "react";
 import "./EndGame.scss";
 import { TiRefresh } from "react-icons/ti/";
 
-const EndGame = ({ solution, win }) => {
+const EndGame = ({ solution, win, reload }) => {
     return (
         <div className="overlay">
             <div className="endCard">
@@ -31,7 +31,7 @@ const EndGame = ({ solution, win }) => {
                 <div className="commands">
                     <button
                         className="button"
-                        onClick={() => window.location.reload()}
+                        onClick={reload}
                     >
                         <TiRefresh />
                     </button>

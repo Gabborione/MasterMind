@@ -79,6 +79,10 @@ const Line = ({
         }
     }, [isFinal]);
 
+    useEffect(() => {
+        setHints(DEFAULT_HINTS);
+    }, [solution]);
+
     const handleConfirm = () => {
         if (!guess.some((val) => val === DEFAULT_COLOR)) {
             setNext((val) => !val);
