@@ -1,31 +1,53 @@
+$line-width: 230px;
+$line-height: 45px;
+$scale-factor: (100vw / 768px);
+
+.line{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.8rem;
+
+    @media (min-width: 768px) {
+        transform: scale(1.7);
+    }
+}
+
 .lineContainer {
-    width: 230px;
-    height: 45px;
+    min-width: $line-width;
+    min-height: $line-height;
+    width: 80%;
+    height: $line-height;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 15%;
     background: url("../../../public/Images/BackgroundImage.jfif") right;
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
     box-shadow: -1px 2px 7px 3px rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    border-radius: 10px;   
+    padding-left: 10%;
+
+    @media (min-width: 768px) {
+        
+        
+          
+    }  
 }
 
 .colorsContainer {
-    height: 100%;
-    padding: 0.5em;
+    height: 100%;  
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 7%;
 }
 
 .color {
-    width: 30px;
+    height: 65%;
     aspect-ratio: 1;
     box-shadow: -1px 2px 7px 2px rgba(0, 0, 0, 0.7);
     border-radius: 50%;
@@ -43,7 +65,7 @@
 }
 
 .hint {
-    width: 12px;
+    height: 30%;
     aspect-ratio: 1;
     box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.6);
     border-radius: 50%;

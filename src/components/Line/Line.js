@@ -6,141 +6,130 @@ const DEFAULT_COLOR = "grey";
 const DEFAULT_HINTS = Array(4).fill(DEFAULT_COLOR);
 
 const Line = ({
-    guess,
-    solution,
-    isFinal,
-    isCurrentGuess,
-    setNext,
-    recurrences,
+  guess,
+  solution,
+  isFinal,
+  isCurrentGuess,
+  setNext,
+  recurrences,
 }) => {
-    const [hints, setHints] = useState(DEFAULT_HINTS);
+  const [hints, setHints] = useState(DEFAULT_HINTS);
 
-    function shuffle(array) {
-        let currentIndex = array.length,
-            randomIndex;
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
 
-        while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
 
-            [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex],
-                array[currentIndex],
-            ];
-        }
-
-        return array;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
     }
 
-    useEffect(() => {
-        const newHints = [];
+    return array;
+  }
 
-        if (isFinal) {
-            let recurrencesClone = structuredClone(recurrences);
+  useEffect(() => {
+    const newHints = [];
 
-            for (let i = 0; i < solution.length; i++) {
-                if (guess[i] === solution[i]) {
-                    newHints.push("match");
-                    recurrencesClone[
-                        recurrencesClone.findIndex(
-                            (val) => val.color === guess[i]
-                        )
-                    ].count--;
-                }
-            }
+    if (isFinal) {
+      let recurrencesClone = structuredClone(recurrences);
 
-            for (let i = 0; i < solution.length; i++) {
-                if (guess[i] === solution[i]) {
-                } else if (
-                    recurrencesClone.find(
-                        (val) => val.color === guess[i] && val.count > 0
-                    )
-                ) {
-                    newHints.push("close");
-                    let curr = recurrencesClone.findIndex(
-                        (val) => val.color === guess[i]
-                    );
-                    if (recurrencesClone[curr].count > 0)
-                        recurrencesClone[curr].count--;
-                }
-            }
-
-            shuffle(newHints);
-
-            if (newHints.length !== solution.length) {
-                let differenceCount = solution.length - newHints.length;
-
-                for (let i = 0; i < differenceCount; i++) {
-                    newHints.push("mismatch");
-                }
-            }
-
-            setHints(newHints);
+      for (let i = 0; i < solution.length; i++) {
+        if (guess[i] === solution[i]) {
+          newHints.push("match");
+          recurrencesClone[
+            recurrencesClone.findIndex((val) => val.color === guess[i])
+          ].count--;
         }
-    }, [isFinal]);
+      }
 
-    useEffect(() => {
-        setHints(DEFAULT_HINTS);
-    }, [solution]);
-
-    const handleConfirm = () => {
-        if (!guess.some((val) => val === DEFAULT_COLOR)) {
-            setNext((val) => !val);
+      for (let i = 0; i < solution.length; i++) {
+        if (guess[i] === solution[i]) {
+        } else if (
+          recurrencesClone.find(
+            (val) => val.color === guess[i] && val.count > 0
+          )
+        ) {
+          newHints.push("close");
+          let curr = recurrencesClone.findIndex(
+            (val) => val.color === guess[i]
+          );
+          if (recurrencesClone[curr].count > 0) recurrencesClone[curr].count--;
         }
-    };
+      }
 
-    return (
-        <div
-            style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                gap: "0.8rem",
-            }}
-        >
-            <div className="lineContainer">
-                <div className="colorsContainer">
-                    {guess.map((color, index) => {
-                        return (
-                            <div
-                                className="color"
-                                key={index}
-                                style={{ backgroundColor: `${color}` }}
-                            />
-                        );
-                    })}
-                </div>
+      shuffle(newHints);
 
-                <div className="hints">
-                    {hints.map((value, index) => {
-                        let hintColor = DEFAULT_COLOR;
+      if (newHints.length !== solution.length) {
+        let differenceCount = solution.length - newHints.length;
 
-                        if (value === "match") {
-                            hintColor = "black";
-                        } else if (value === "close") {
-                            hintColor = "white";
-                        } else {
-                            hintColor = DEFAULT_COLOR;
-                        }
+        for (let i = 0; i < differenceCount; i++) {
+          newHints.push("mismatch");
+        }
+      }
 
-                        return (
-                            <div
-                                className="hint"
-                                key={index}
-                                style={{ backgroundColor: `${hintColor}` }}
-                            />
-                        );
-                    })}
-                </div>
-            </div>
-            {isCurrentGuess && (
-                <div className="confirm" onClick={handleConfirm}>
-                    <TiTick />
-                </div>
-            )}
+      setHints(newHints);
+    }
+  }, [isFinal]);
+
+  useEffect(() => {
+    setHints(DEFAULT_HINTS);
+  }, [solution]);
+
+  const handleConfirm = () => {
+    if (!guess.some((val) => val === DEFAULT_COLOR)) {
+      setNext((val) => !val);
+    }
+  };
+
+  return (
+    <div className="line">
+      <div className="lineContainer">
+        <div className="colorsContainer">
+          {guess.map((color, index) => {
+            return (
+              <div
+                className="color"
+                key={index}
+                style={{ backgroundColor: `${color}` }}
+              />
+            );
+          })}
         </div>
-    );
+
+        <div className="hints">
+          {hints.map((value, index) => {
+            let hintColor = DEFAULT_COLOR;
+
+            if (value === "match") {
+              hintColor = "black";
+            } else if (value === "close") {
+              hintColor = "white";
+            } else {
+              hintColor = DEFAULT_COLOR;
+            }
+
+            return (
+              <div
+                className="hint"
+                key={index}
+                style={{ backgroundColor: `${hintColor}` }}
+              />
+            );
+          })}
+        </div>
+      </div>
+      {isCurrentGuess && (
+        <div className="confirm" onClick={handleConfirm}>
+          <TiTick />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Line;

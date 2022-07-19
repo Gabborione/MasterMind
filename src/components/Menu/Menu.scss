@@ -1,12 +1,12 @@
+@import "../../sassStyles/variables";
+
 .menuContainer {
     position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1rem;
+    right:0;
+    margin-right: 5%;
 }
 
 .menuIcon {
-    width: 2rem;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
@@ -15,5 +15,11 @@
         color: white;
         font-size: 1.5rem;
         filter: drop-shadow(-1px 3px 2px rgb(0 0 0 / 0.6));
+
+        @media (min-width: 768px) {
+            font-size: $font-800;
+        }
     }
+
+    
 }
