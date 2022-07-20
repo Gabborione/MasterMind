@@ -13,6 +13,7 @@
 
 .endCard {
     width: 80%;
+    max-width: 400px;
     box-shadow: -1px 5px 10px 5px rgba(0, 0, 0, 0.57);
     background: url("../../../public/Images/BackgroundImage.jfif") no-repeat
         center center fixed;
@@ -33,6 +34,10 @@
         font-weight: 500;
         margin-top: 1rem;
     }
+
+    @media (min-width: 768px) {
+        transform: scale(1.5);
+    }
 }
 
 .button {
@@ -52,4 +57,16 @@
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
     color: white;
+}
+
+#solution{
+
+    padding-left: 2rem; 
+    padding-right: 2rem;
+
+    @media (min-width: 768px) {
+        height: 60px; 
+    
+    }
+    
 }

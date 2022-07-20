@@ -40,9 +40,11 @@ function App() {
   function generateSolution() {
     let newSolution = [];
 
-    for (let i = 0; i < SOLUTION_LENGTH; i++) {
-      newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
-    }
+    // for (let i = 0; i < SOLUTION_LENGTH; i++) {
+    //   newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
+    // }
+
+    newSolution = ["red", "yellow", "blue", "green"];
 
     setSolution(newSolution);
 
@@ -64,7 +66,6 @@ function App() {
 
     let reccurencesTemp = [];
     const newSolution = generateSolution();
-    // const newSolution = ["red", "yellow", "blue", "green"];
 
     newSolution.forEach((color) => {
       if (reccurencesTemp.find((val) => val.color === color) !== undefined) {
