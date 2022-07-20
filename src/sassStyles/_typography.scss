@@ -15,3 +15,39 @@ h1 {
         line-height: $font-800;
     }
 }
+
+h2 {
+    display: block;
+    font-size: $font-300;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px #000;
+    line-height: $font-500;
+
+    @media (min-width: 768px) {
+        font-size: $font-900;
+        line-height: $font-800;
+    }
+}
+
+
+p{
+    
+    display: block;
+    font-size: $font-300;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 10px #000;
+    line-height: $font-500;
+
+    @media (min-width: 768px) {
+        font-size: $font-700;
+        line-height: $font-800;
+    }
+    
+}
+
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Line.scss";
-import { TiTick, TiTickOutline } from "react-icons/ti";
+import { TiTick } from "react-icons/ti";
 
 const DEFAULT_COLOR = "grey";
 const DEFAULT_HINTS = Array(4).fill(DEFAULT_COLOR);
