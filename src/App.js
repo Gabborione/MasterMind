@@ -4,6 +4,7 @@ import Line from "./components/Line/Line";
 import ColorPicker from "./components/ColorPicker/ColorPicker";
 import EndGame from "./components/EndGame/EndGame";
 import Menu from "./components/Menu/Menu";
+import { TiRefresh } from "react-icons/ti/";
 
 const COLORS = ["red", "yellow", "blue", "green", "black", "white"];
 const SOLUTION_LENGTH = 4;
@@ -40,11 +41,11 @@ function App() {
   function generateSolution() {
     let newSolution = [];
 
-    // for (let i = 0; i < SOLUTION_LENGTH; i++) {
-    //   newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
-    // }
+    for (let i = 0; i < SOLUTION_LENGTH; i++) {
+      newSolution.push(COLORS[Math.floor(Math.random() * COLORS.length)]);
+    }
 
-    newSolution = ["red", "yellow", "blue", "green"];
+    //newSolution = ["red", "yellow", "blue", "green"];
 
     setSolution(newSolution);
 
@@ -113,6 +114,8 @@ function App() {
   return (
     <div className="container">
       <div className="header">
+        <TiRefresh id="refresh" onClick={reload} />
+
         <h1 className="title">COLOR MIND</h1>
 
         <Menu />

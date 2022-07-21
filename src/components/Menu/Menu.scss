@@ -12,6 +12,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
     > * {
         color: white;
         font-size: 1.5rem;
@@ -53,11 +55,22 @@
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
     border-radius: 15px;
-    padding: 20px;
+    padding: 5%;
 
     h1{
-        margin-bottom: 1rem;
+        margin-bottom: 10%;
     }
 
     
+}
+#solutionEs{
+    height: 10%;
+    padding : 0 20% 0 20%;
+    border-radius: 10px;
+
+}
+
+#guessEs{
+    height: 10%;  
+    border-radius: 10px;
 }

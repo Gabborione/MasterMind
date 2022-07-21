@@ -5,6 +5,8 @@ import { FaBook, FaBookOpen } from "react-icons/fa";
 const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const solution = ["red", "yellow", "blue", "green"];
+  const guess = ["red", "green", "blue", "black"];
+  const hints = ["black", "white", "grey", "white"];
   return (
     <>
       {isOpen && <div className="overlayMenu" />}
@@ -17,34 +19,65 @@ const Menu = () => {
         >
           {isOpen ? <FaBookOpen /> : <FaBook />}
         </div>
-        <nav id="navContainer">
-          <h1>How to play</h1>
-          <h2>Find the hidden sequence:</h2>
-          <p>es.</p>
-          <div
-            className="lineContainer"
-            id="solution"
-            style={{ margin: "1rem 0 1rem 0" }}
-          >
-            {solution.map((color, index) => {
-              return (
-                <div
-                  className="color"
-                  key={index}
-                  style={{ backgroundColor: `${color}` }}
-                />
-              );
-            })}
-          </div>
-          <p>
-            If your guess isn't correct, there will be 4 pegs, one for each
-            color guess of the code peg’s position and color, place one black
-            key peg. Place one white key peg for each code peg, which is of the
-            right color but in the wrong hole. Don’t place any key pegs for a
-            code peg if both of its parameters are wrong. Put these key pegs in
-            any random order, not according to their corresponding code pegs.
-          </p>
-        </nav>
+        {isOpen && (
+          <nav id="navContainer">
+            <h1>How to play</h1>
+            <h2>Find the hidden sequence:</h2>
+            <p>es.</p>
+            <div
+              className="lineContainer"
+              id="solutionEs"
+              style={{ margin: "5% 0 5% 0" }}
+            >
+              {solution.map((color, index) => {
+                return (
+                  <div
+                    className="color"
+                    key={index}
+                    style={{ backgroundColor: `${color}` }}
+                  />
+                );
+              })}
+            </div>
+            <p>
+              If your guess isn't correct, there will be 4 pegs, one for each
+              color, the black one means that the color and the position are
+              right, the white one means that the color is right but on the
+              wrong position. If the peg is grey it means that the color is
+              wrong. The pegs are in a random order, not according to their
+              corresponding code pegs.
+            </p>
+            <div
+              className="lineContainer"
+              id="guessEs"
+              style={{ marginTop: "5%" }}
+            >
+              <div className="colorsContainer">
+                {guess.map((color, index) => {
+                  return (
+                    <div
+                      className="color"
+                      key={index}
+                      style={{ backgroundColor: `${color}` }}
+                    />
+                  );
+                })}
+              </div>
+
+              <div className="hints">
+                {hints.map((value, index) => {
+                  return (
+                    <div
+                      className="hint"
+                      key={index}
+                      style={{ backgroundColor: `${value}` }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </nav>
+        )}
       </div>
     </>
   );
